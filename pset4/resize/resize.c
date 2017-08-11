@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     }
 
     // remember filenames
-    int factor = atoi(argv[1]);
+    float factor = atof(argv[1]);
     char *infile = argv[2];
     char *outfile = argv[3];
 
@@ -100,27 +100,46 @@ int main(int argc, char *argv[])
         fseek(inptr, oldPadding, SEEK_CUR);
 
     }
-    
-    for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
+    if(factor >= 1)
     {
-        for(int y = 0; y < factor; y++)
+       for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i++)
         {
-            for (int j = 0; j < bi.biWidth; j++)
+            for(int y = 0; y < factor; y++)
             {
-                for(int x = 0; x < factor; x++)
+                for (int j = 0; j < bi.biWidth; j++)
                 {
-                    fwrite(&pixels[i][j], sizeof(RGBTRIPLE), 1, outptr); 
+                    for(int x = 0; x < factor; x++)
+                    {
+                        fwrite(&pixels[i][j], sizeof(RGBTRIPLE), 1, outptr); 
+                    }
                 }
+                
+                for (int k = 0; k < newPadding; k++)
+                {
+                    fputc(0x00, outptr);
+                }
+                
             }
-            
-            for (int k = 0; k < newPadding; k++)
-            {
-                fputc(0x00, outptr);
-            }
-            
+    
+        } 
+    } 
+    else 
+    {
+        for (int i = 0, biHeight = abs(bi.biHeight); i < biHeight; i += 1/factor)
+        {
+                for (int j = 0; j < bi.biWidth; j += 1/factor)
+                {
+                        fwrite(&pixels[i][j], sizeof(RGBTRIPLE), 1, outptr);
+                }
+                
+                for (int k = 0; k < newPadding; k++)
+                {
+                    fputc(0x00, outptr);
+                }
+    
         }
-
     }
+    
 
     // close infile
     fclose(inptr);
