@@ -1,0 +1,12 @@
+1.  stdint.h is a header file that contais typedefs for exact width intefer types and macros that define types limits
+2.  having specific variable sizes is predictable and helps when dealing with porting code to may different platforms.
+3.  BYTE: 1, DWORD: 4, LONG: 4, WORD: 2
+4.  0x424D, 0x46000000 - bitmap size depend
+5.  bfSize - stores the file size (padding and pixels), bfSize - stores the file size (padding, pixels and headers)
+6.  When biHeight <0 - top to bottom pixel order
+7.  BiBitCount
+8.  The file may not exist, user could type wrong name
+9.  Because we need it only for redering one block of fixed size data (headers)
+10. 3
+11. Changes the location of the file pointer
+12. It tells fseek to offset the pointer from current location
