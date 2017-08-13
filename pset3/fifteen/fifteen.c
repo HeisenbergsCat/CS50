@@ -11,7 +11,7 @@
  * Note that usleep is obsolete, but it offers more granularity than
  * sleep and is simpler to use than nanosleep; `man usleep` for more.
  */
- 
+
 #define _XOPEN_SOURCE 500
 
 #include <cs50.h>
@@ -31,12 +31,12 @@ int d;
 
 //navigation
 
-struct currentPos 
+struct currentPos
 {
     int i;
     int j;
 };
-    
+
 struct currentPos currentPos;
 
 // prototypes
@@ -61,7 +61,7 @@ int main(int argc, string argv[])
     if (d < DIM_MIN || d > DIM_MAX)
     {
         printf("Board must be between %i x %i and %i x %i, inclusive.\n",
-            DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
+               DIM_MIN, DIM_MIN, DIM_MAX, DIM_MAX);
         return 2;
     }
 
@@ -91,12 +91,12 @@ int main(int argc, string argv[])
         for (int i = 0; i < d; i++)
         {
             for (int j = 0; j < d; j++)
-            {  
-                if(board[i][j] == 0)
+            {
+                if (board[i][j] == 0)
                 {
                     fprintf(file, "[]");
                 }
-                else if(board[i][j] < 10)
+                else if (board[i][j] < 10)
                 {
                     fprintf(file, "0%i", board[i][j]);
                 }
@@ -123,7 +123,7 @@ int main(int argc, string argv[])
         // prompt for move
         printf("Tile to move: ");
         int tile = get_int();
-        
+
         // quit if user inputs 0 (for testing)
         if (tile == 0)
         {
@@ -144,7 +144,7 @@ int main(int argc, string argv[])
         // sleep thread for animation's sake
         usleep(500000);
     }
-    
+
     // close log
     fclose(file);
 
@@ -173,31 +173,31 @@ void greet(void)
 
 /**
  * Initializes the game's board with tiles numbered 1 through d*d - 1
- * (i.e., fills 2D array with values but does not actually print them).  
+ * (i.e., fills 2D array with values but does not actually print them).
  */
 void init(void)
 {
-    int cellValue = (d*d) - 1;
-    
-    currentPos.i = d-1;
-    currentPos.j = d-1;
-    
+    int cellValue = (d * d) - 1;
+
+    currentPos.i = d - 1;
+    currentPos.j = d - 1;
+
     for (int i = 0; i < d; i++)
     {
-        for(int j = 0; j < d; j++)
+        for (int j = 0; j < d; j++)
         {
             board[i][j] = cellValue;
             cellValue--;
-            if (d%2==0 && board[i][j] == 1)
+            if (d % 2 == 0 && board[i][j] == 1)
             {
                 board[i][j] = 2;
-            } 
-            else if (d%2==0 && board[i][j] == 2)
+            }
+            else if (d % 2 == 0 && board[i][j] == 2)
             {
                 board[i][j] = 1;
             }
         }
-        
+
     }
 }
 
@@ -206,66 +206,66 @@ void init(void)
  */
 void draw(void)
 {
-printf("\n");
-for (int i = 0; i < d; i++)
+    printf("\n");
+    for (int i = 0; i < d; i++)
+    {
+        for (int j = 0; j < d; j++)
         {
-            for (int j = 0; j < d; j++)
-            {  
-                
-                if(board[i][j] == 0)
-                {
-                    printf("[]");
-                }
-                
-                else if(board[i][j] < 10)
-                {
-                    printf("0%i", board[i][j]);
-                }
-                else
-                {
-                    printf("%i", board[i][j]);
-                }
-                if (j < d - 1)
-                {
-                    printf("|");
-                }
+
+            if (board[i][j] == 0)
+            {
+                printf("[]");
+
             }
-            printf("\n");
-            
+            else if (board[i][j] < 10)
+            {
+                printf("0%i", board[i][j]);
+            }
+            else
+            {
+                printf("%i", board[i][j]);
+            }
+            if (j < d - 1)
+            {
+                printf("|");
+            }
         }
+        printf("\n");
+
+    }
 }
 
 /**
  * If tile borders empty space, moves tile and returns true, else
- * returns false. 
+ * returns false.
  */
 bool move(int tile)
 {
-    if(board[currentPos.i - 1][currentPos.j] == tile)
+    if (board[currentPos.i - 1][currentPos.j] == tile)
     {
         board[currentPos.i - 1][currentPos.j] = 0;
         board[currentPos.i][currentPos.j] = tile;
         currentPos.i -= 1;
         return true;
     }
-    
-    if(board[currentPos.i][currentPos.j - 1] == tile)
+
+    if (board[currentPos.i][currentPos.j - 1] == tile)
     {
         board[currentPos.i][currentPos.j - 1] = 0;
         board[currentPos.i][currentPos.j] = tile;
         currentPos.j -= 1;
         return true;
     }
-    
-    if(board[currentPos.i + 1][currentPos.j] == tile)
+
+    if (board[currentPos.i + 1][currentPos.j] == tile)
     {
         board[currentPos.i + 1][currentPos.j] = 0;
         board[currentPos.i][currentPos.j] = tile;
         currentPos.i += 1;
         return true;
     }
-    
-    if(board[currentPos.i][currentPos.j + 1] == tile)
+
+    if (board[currentPos.i][currentPos.j + 1] == tile)
     {
         board[currentPos.i][currentPos.j + 1] = 0;
         board[currentPos.i][currentPos.j] = tile;
@@ -276,26 +276,26 @@ bool move(int tile)
 }
 
 /**
- * Returns true if game is won (i.e., board is in winning configuration), 
+ * Returns true if game is won (i.e., board is in winning configuration),
  * else false.
  */
 bool won(int d)
 {
-    int combinedArray[(d*d) - 1];
+    int combinedArray[(d * d) - 1];
     int k = 0;
-    
+
     for (int i = 0; i < d; i++)
     {
-        for(int j = 0; j < d; j++)
+        for (int j = 0; j < d; j++)
         {
             combinedArray[k] = board[i][j];
             k++;
         }
     }
-    
-    for(int l = 0; l < (d*d) - 2; l++)
+
+    for (int l = 0; l < (d * d) - 2; l++)
     {
-        if((combinedArray[l + 1] - combinedArray[l]) != 1)
+        if ((combinedArray[l + 1] - combinedArray[l]) != 1)
         {
             printf("%i ", (combinedArray[l + 1] - combinedArray[l]));
             return false;

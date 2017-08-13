@@ -1,13 +1,13 @@
 /**
  * WHODUNIT
  */
-       
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "bmp.h"
 
-int main(int argc,char *argv[])
+int main(int argc, char *argv[])
 {
     // ensure proper usage
     if (argc != 3)
@@ -21,7 +21,7 @@ int main(int argc,char *argv[])
     char *infile = argv[2];
     char *outfile = argv[3];
 
-    // open input file 
+    // open input file
     FILE *inptr = fopen(infile, "r");
     if (inptr == NULL)
     {
@@ -47,7 +47,7 @@ int main(int argc,char *argv[])
     fread(&bi, sizeof(BITMAPINFOHEADER), 1, inptr);
 
     // ensure infile is (likely) a 24-bit uncompressed BMP 4.0
-    if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 || 
+    if (bf.bfType != 0x4d42 || bf.bfOffBits != 54 || bi.biSize != 40 ||
         bi.biBitCount != 24 || bi.biCompression != 0)
     {
         fclose(outptr);
@@ -76,8 +76,9 @@ int main(int argc,char *argv[])
 
             // read RGB triple from infile
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
-            
-            if(triple.rgbtRed == 0x0000ff) {
+
+            if (triple.rgbtRed == 0x0000ff)
+            {
                 triple.rgbtGreen = 0x00;
                 triple.rgbtBlue = 0xff;
                 triple.rgbtRed = 0xff;
