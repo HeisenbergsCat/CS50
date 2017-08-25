@@ -1,6 +1,10 @@
 /*
 CS50 Problem set 2: Crack, more comfortable
-TODO: Refactor and make this more universal
+TOFO: Write a hasher to make some example passwords
+TODO: Make it with recursion
+TODO: Make number of characters as argv
+TODO: Make salt as argv
+TODO: Different hashing alghoritms
 */
 
 #define _XOPEN_SOURCE 600

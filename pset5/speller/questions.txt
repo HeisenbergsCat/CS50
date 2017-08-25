@@ -1,0 +1,16 @@
+0.  Pneumonoultramicroscopicsilicovolcanoconiosis is a word describing a lung desease caudsed by inhaling too much ash. 
+    It's the longest word introduced in English Oxford Dictionary. The word is artificial, invented by the president of National
+    Puzzlers' League
+1.  getrusage returns resource usage measures for given process (SELF, CHILDREN, THERAD)
+2.  16
+3.  Maybe to avoid loading structs to memory which could alterate calculations.
+4.  The main's for loop loads one character to a variable and checks it with a series of conditionals:
+    First it'll check if the character is a letter or apostrophy, if it is it'll add it to the WORD and increment index.
+    Within the first cinditional is another to check if the sequence of characters already added has a lenght of the longest possible word
+    in a dictionary. If it doesn't it discards the invaild part of the word and resets the index counter.
+    Next conditional checks if the character is a number. If it is, it discards the word nd resets the index counter.
+    
+    If a character is not a letter (or apostrophy), not a number and not EOF it means it must be the end of a current word.
+    In this case we add a '\0' character to terminate a sequence, increment the word counter and proceed to spellcheck.
+5.  I think the main problem could be with all special characters, like :, (, ), etc. fscanf would read them as %s and append to the checked word.
+6.  I presume it's for safety reasons, const wont allow the space in memory for variable to be overwritten by enything else.
