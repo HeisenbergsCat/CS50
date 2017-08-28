@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 
+//DATA STRUCTURES
 typedef struct _NODE_STR
 {
     char *item;
@@ -18,10 +19,9 @@ NODE_STR *insertLast(NODE_STR *head, char *element);
 
 char *listSearch(NODE_STR *head, char* text);
 void printList(NODE_STR *head);
-void deleteList(NODE_STR *head);
+void destroy(NODE_STR *head);
 
 //MAIN
-
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -33,28 +33,37 @@ int main(int argc, char *argv[])
     //create a pointer to first node in the list with data given by user input
     NODE_STR *newlist = createNew(argv[1]);
 
-    //insert some more element to the list
+    if (newlist != NULL)
+    {
+        //insert some more element to the list
+        newlist = insertLast(newlist, "1_drumsticks");
+        newlist = insertLast(newlist, "2_bass");
+        newlist = insertLast(newlist, "3_headphones");
 
-    newlist = insertFirst(newlist, "drumsticks");
-    newlist = insertFirst(newlist, "bass");
-    newlist = insertFirst(newlist, "headphones");
+        //test inserting last element
+        //ewlist = insertLast(newlist, "LastItem");
 
-    newlist = insertLast(newlist, "LastItem");
+        //test inserting middle element
+        //newlist = insertAfter(newlist, "1_drumsticks", "HEADS");
 
-    newlist = insertAfter(newlist, "drumsticks", "HEADS");
+        //print the entire list
+        printList(newlist);
+        printf("\n");
 
-    //print the entire list
-    printList(newlist);
-    printf("\n");
+        //test search function
+        printf("found %s\n\n", listSearch(newlist, "LastItem"));
 
-    //test search function
-    printf("found %s\n", listSearch(newlist, "LastItem"));
-
+        destroy(newlist);
+    }
+    else
+    {
+        return 1;
+    }
     return 0;
 } // END OF MAIN
 
 
-//functions declarations
+//FUNCTION DECLARATIONS
 
 //creates first node of the list
 //returns new head pointer
@@ -63,9 +72,11 @@ NODE_STR *createNew(char *element)
     NODE_STR *node;
     node = malloc(sizeof(NODE_STR));
 
-    node -> item = element;
-    node -> next = NULL;
-
+    if (node != NULL)
+    {
+        node -> item = element;
+        node -> next = NULL;
+    }
     return node;
 }
 
@@ -75,13 +86,14 @@ NODE_STR *insertFirst(NODE_STR *head, char *element)
 {
     NODE_STR *ptr = head;
     NODE_STR *newNode;
-
     newNode = malloc(sizeof(NODE_STR));
 
-    newNode -> item = element;
-    newNode -> next = ptr -> next;
-    ptr -> next = newNode;
-
+    if (newNode != NULL)
+    {
+        newNode -> item = element;
+        newNode -> next = ptr;
+        ptr = newNode;
+    }
     return ptr;
 }
 
@@ -92,20 +104,22 @@ NODE_STR *insertLast(NODE_STR *head, char *element)
     NODE_STR *ptr = head;
     NODE_STR *start = head;
     NODE_STR *newNode;
-
     newNode = malloc(sizeof(NODE_STR));
-    newNode -> item = element;
 
-    while (ptr != NULL)
+    if (newNode != NULL)
     {
-        if (ptr -> next == NULL)
+        newNode -> item = element;
+        while (ptr != NULL)
         {
-            ptr -> next = newNode;
-            newNode -> next = NULL;
+            if (ptr -> next == NULL)
+            {
+                ptr -> next = newNode;
+                newNode -> next = NULL;
+            }
+            ptr = ptr -> next;
         }
-        ptr = ptr -> next;
+        ptr = start;
     }
-    ptr = start;
     return ptr;
 }
 
@@ -113,24 +127,26 @@ NODE_STR *insertLast(NODE_STR *head, char *element)
 //returns pointer to the head of the list
 NODE_STR *insertAfter(NODE_STR *head, char *searchedEl, char *input)
 {
-    //TODO
     NODE_STR *ptr = head;
     NODE_STR *start = head;
     NODE_STR *newNode;
 
     newNode = malloc(sizeof(NODE_STR));
-    newNode -> item = input;
 
-    while (ptr != NULL)
+    if (newNode != NULL)
     {
-        if (ptr -> item == searchedEl)
+        newNode -> item = input;
+        while (ptr != NULL)
         {
-            newNode -> next = ptr -> next;
-            ptr -> next = newNode;
+            if (ptr -> item == searchedEl)
+            {
+                newNode -> next = ptr -> next;
+                ptr -> next = newNode;
+            }
+            ptr = ptr ->next;
         }
-        ptr = ptr ->next;
+        ptr = start;
     }
-    ptr = start;
     return ptr;
 }
 
@@ -157,10 +173,19 @@ char* listSearch(NODE_STR *head, char* text)
 }
 
 //frees the memory allocated for the list
-void deleteList(NODE_STR *head)
+void destroy(NODE_STR *head)
 {
     NODE_STR *ptr = head;
+    NODE_STR *nextone;
 
+    while (ptr != NULL)
+    {
+        nextone = ptr -> next;
+        free(ptr);
+        ptr = nextone;
+    }
+
+    printf("list deleted!\n");
 }
 
 //prints every item of the list
