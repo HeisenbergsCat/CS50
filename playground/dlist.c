@@ -12,7 +12,7 @@ typedef struct _NODE_STR
 }
 NODE_STR;
 
-//functions definitions
+//FUNCTION DECLARATIONS
 NODE_STR *createNew(char* element);
 NODE_STR *insertFirst(NODE_STR *head, char *element);
 NODE_STR *insertAfter(NODE_STR *head, char *element, char *input);
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 } // END OF MAIN
 
 
-//FUNCTION DECLARATIONS
+//FUNCTION DEFINITIONS
 
 //creates first node of the list
 //returns new head pointer

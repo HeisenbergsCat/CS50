@@ -20,7 +20,8 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
-    // TODO
+    FILE *dictFile;
+    dictFile = fopen(dictionary, "r");
     return false;
 }
 
