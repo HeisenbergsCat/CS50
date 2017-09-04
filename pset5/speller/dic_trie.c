@@ -4,36 +4,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#include "trie.h"
-
-int main() {
-    /*
-    if (argc != 2) {
-        printf("need some args!");
-        return 1;
-    }*/
-
-    DICT_TRIE *root = malloc(sizeof(DICT_TRIE));
-
-    //ROOT INITIALIZATION
-
-    root -> isword = false;
-    root -> wordcount = 0;
-    for (int i = 0; i < 27; i ++)
-    {
-        root -> children[i] = NULL;
-    }
-
-    addWords(&root, "small");
-
-    bool check = wordCheck(root, "satan");
-
-    printf("wordcount: %i", root -> wordcount);
-    printf("\ncheck: %s\n", check ? "true" : "false");
-    destroyNode(&root);
-
-    return 0;
-}
+#include "dic_trie.h"
 
 //Converts character to a proper array index
 int charToIndex(char letter)
@@ -52,16 +23,11 @@ void wordInsert(DICT_TRIE **root, char *word)
     DICT_TRIE *start = *root;
 
     //iterate through given word
-        for (int i = 0; i < strlen(word); i++)
+        for(int i = 0; i < strlen(word); i ++)
         {
             //calculate index for current character
             int charIndex = charToIndex(tolower(word[i]));
 
-            //if there's already a pointer in the current index, move on
-            if (cursor -> children[charIndex] != NULL)
-            {
-                cursor = cursor ->children[charIndex];
-            }
             //if there's no pointer assigned to curretn index, malloc a new node and advance the traversing pointer
             if (cursor -> children[charIndex] == NULL) {
 
@@ -73,27 +39,35 @@ void wordInsert(DICT_TRIE **root, char *word)
                 {
                     node -> children[j] = NULL;
                 }
+                node -> isword = false;
+                node -> wordcount = 0;
 
                 cursor -> children[charIndex] = node;
                 cursor = node;
             }
+            //if there's already a pointer in the current index, move on
+            else if (cursor -> children[charIndex] != NULL)
+            {
+                cursor = cursor ->children[charIndex];
+            }
 
-    }
+        }
+
     cursor -> isword = true;
     start -> wordcount ++;
 }
 
 //Checks if a word is in a trie data structure
 //Returns true if found, return false if not
-bool wordCheck(DICT_TRIE *root, char *word)
+bool wordCheck(DICT_TRIE *root, const char *word)
 {
     DICT_TRIE *cursor = root;
     DICT_TRIE *copy = root;
-    //calculate index for current character
-    //iterate through given word
+
     for(int i = 0; i < strlen(word) ; i ++)
     {
         int charIndex = charToIndex(tolower(word[i]));
+
         if (cursor -> children[charIndex] == NULL)
         {
             return false;
@@ -104,6 +78,7 @@ bool wordCheck(DICT_TRIE *root, char *word)
             cursor = cursor ->children[charIndex];
             copy = cursor;
         }
+
     }
     return copy -> isword;
 }
@@ -129,7 +104,7 @@ void printNode(DICT_TRIE **node)
 
 //Adds words from a file to a trie
 //Return true if succeded, otherwise return false
-bool addWords(DICT_TRIE **root, char *filename)
+bool addWords(DICT_TRIE **root, const char *filename)
 {
     FILE *testFile;
     testFile = fopen(filename, "r");
@@ -168,22 +143,6 @@ bool destroyNode (DICT_TRIE **node)
     }
     free(cursor);
     return true;
-}
-
-//prints whole tree structure
-void printTrie (DICT_TRIE **node)
-{
-    DICT_TRIE *cursor = *node;
-    printNode(&cursor);
-
-    int i;
-    for (i = 0; i < 27; i ++)
-    {
-        if (cursor -> children[i] != NULL)
-        {
-            printTrie(&cursor -> children[i]);
-        }
-    }
 }
 
 

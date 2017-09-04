@@ -8,14 +8,14 @@ CFLAGS = -ggdb3 -O0 -Qunused-arguments -std=c11 -Wall -Werror
 EXE = speller
 
 # space-separated list of header files
-HDRS = dictionary.h
+HDRS = dictionary.h dic_trie.h
 
 # space-separated list of libraries, if any,
 # each of which should be prefixed with -l
 LIBS =
 
 # space-separated list of source files
-SRCS = speller.c dictionary.c
+SRCS = speller.c dictionary.c dic_trie.c
 
 # automatically generated list of object files
 OBJS = $(SRCS:.c=.o)
@@ -25,7 +25,7 @@ OBJS = $(SRCS:.c=.o)
 $(EXE): $(OBJS) $(HDRS) Makefile
 	$(CC) $(CFLAGS) -o $@ $(OBJS) $(LIBS)
 
-# dependencies 
+# dependencies
 $(OBJS): $(HDRS) Makefile
 
 # housekeeping

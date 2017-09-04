@@ -19,13 +19,13 @@ int charToIndex(char letter);
 void wordInsert(DICT_TRIE **root, char *word);
 
 //Checks if a word is in a trie data structure
-bool wordCheck(DICT_TRIE *root, char *word);
+bool wordCheck(DICT_TRIE *root, const char *word);
 
 //Prints children of a single trie node
 void printNode(DICT_TRIE **root);
 
 //Adds words from a file to a trie
-bool addWords(DICT_TRIE **root, char *filename);
+bool addWords(DICT_TRIE **root, const char *filename);
 
 //unloads all trie's nodes from memory
 //Return true if succeded, false otherwise

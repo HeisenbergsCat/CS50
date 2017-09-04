@@ -7,6 +7,8 @@
 
 #include <stdbool.h>
 
+
+
 // maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
 #define LENGTH 45

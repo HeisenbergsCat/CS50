@@ -3,16 +3,20 @@
  */
 
 #include <stdbool.h>
+#include <ctype.h>
 
 #include "dictionary.h"
+#include "dic_trie.h"
+
+DICT_TRIE *dictTrie;
 
 /**
  * Returns true if word is in dictionary else false.
  */
 bool check(const char *word)
 {
-    // TODO
-    return false;
+    return wordCheck(dictTrie, word);
+    //return false;
 }
 
 /**
@@ -20,9 +24,16 @@ bool check(const char *word)
  */
 bool load(const char *dictionary)
 {
-    FILE *dictFile;
-    dictFile = fopen(dictionary, "r");
-    return false;
+    dictTrie = malloc(sizeof(DICT_TRIE));
+
+    for (int i = 0; i < 27; i ++)
+    {
+        dictTrie -> children[i] = NULL;
+    }
+    dictTrie -> isword = false;
+    dictTrie -> wordcount = 0;
+
+    return addWords(&dictTrie, dictionary);
 }
 
 /**
@@ -30,8 +41,7 @@ bool load(const char *dictionary)
  */
 unsigned int size(void)
 {
-    // TODO
-    return 0;
+    return dictTrie -> wordcount;
 }
 
 /**
@@ -40,5 +50,6 @@ unsigned int size(void)
 bool unload(void)
 {
     // TODO
-    return false;
+    return destroyNode(&dictTrie);
+    //return false;
 }
