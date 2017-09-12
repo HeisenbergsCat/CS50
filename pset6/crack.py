@@ -1,6 +1,8 @@
 import hashlib
 import crypt
 import sys
+import os
+
 
 def main():
 
@@ -10,22 +12,59 @@ def main():
         print ("Usage: crack.py hash")
         quit()
 
-    #crypted = crypt.crypt("JH", salt="50")
-    #print(crypted)
-    crack()
+    crack(sys.argv[1])
 
-def crack():
+def initLettersArray():
+    letters = []
+    for i in range(97, 123):
+        letters.append(chr(i))
+    for i in range(65, 91):
+        letters.append(chr(i))
+    return letters
 
-    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
 
+def checkGuess(hashedPass, i):
+    guess = crypt.crypt(i, salt = "50")
+    if guess == hashedPass:
+        return True
+
+def returnPassword(i):
+    print("found password: {}".format(i))
+    return i
+
+
+def crack(hashedPass):
+    letters = initLettersArray()
+
+    print("checking 1 letter passwords")
     for i in letters:
-        print (i)
+        if checkGuess(hashedPass, i) == True:
+            return returnPassword(i)
+            break
+
+    print("checking 2 letters passwords")
+    for i in letters:
         for k in letters:
-            print (i + k)
+            if checkGuess(hashedPass, i + k):
+                return returnPassword(i + k)
+                break
+
+    print("checking 3 letters passwords")
+    for i in letters:
+        for k in letters:
             for l in letters:
-                print (i + k + l)
+                if checkGuess(hashedPass, i + k + l):
+                    return returnPassword(i + k + l)
+                    break
+
+    print("checking 4 letters passwords")
+    for i in letters:
+        for k in letters:
+            for l in letters:
                 for m in letters:
-                    print(i + k + l + m)
+                    if checkGuess(hashedPass, i + k + l + m):
+                        return returnPassword(i + k + l + m)
+                        break
 
 if __name__ == "__main__":
     main()
