@@ -33,22 +33,13 @@ void wordInsert(DICT_TRIE **root, char *word)
 
                 DICT_TRIE *node;
                 node = malloc(sizeof(DICT_TRIE));
-
-                //NODE INITIALIZATION
-                for (int j = 0; j < 27; j++)
-                {
-                    node -> children[j] = NULL;
-                }
-                node -> isword = false;
-                node -> wordcount = 0;
-
                 cursor -> children[charIndex] = node;
                 cursor = node;
             }
             //if there's already a pointer in the current index, move on
-            else if (cursor -> children[charIndex] != NULL)
+            else
             {
-                cursor = cursor ->children[charIndex];
+                cursor = cursor -> children[charIndex];
             }
 
         }

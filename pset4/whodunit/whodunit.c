@@ -12,14 +12,13 @@ int main(int argc, char *argv[])
     // ensure proper usage
     if (argc != 3)
     {
-        fprintf(stderr, "Usage: ./ehodunit clue verdict\n");
+        fprintf(stderr, "Usage: ./whodunit clue verdict\n");
         return 1;
     }
 
     // remember filenames
-    float atof(argv[1]);
-    char *infile = argv[2];
-    char *outfile = argv[3];
+    char *infile = argv[1];
+    char *outfile = argv[2];
 
     // open input file
     FILE *inptr = fopen(infile, "r");

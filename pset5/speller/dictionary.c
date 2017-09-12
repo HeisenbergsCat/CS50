@@ -25,14 +25,6 @@ bool check(const char *word)
 bool load(const char *dictionary)
 {
     dictTrie = malloc(sizeof(DICT_TRIE));
-
-    for (int i = 0; i < 27; i ++)
-    {
-        dictTrie -> children[i] = NULL;
-    }
-    dictTrie -> isword = false;
-    dictTrie -> wordcount = 0;
-
     return addWords(&dictTrie, dictionary);
 }
 
